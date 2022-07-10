@@ -28,11 +28,12 @@ header {
   border-radius: 5px;
 }
 
-.main {
+main {
   display: flex; 
   flex-wrap: wrap;
   margin: 15px; 
   padding: 10px; 
+  justify-content: space-around;
 }
 
 .list {
