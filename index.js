@@ -4,13 +4,15 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const fs = require('fs');
 const Employee = require('./lib/Employee');
+const generateMarkup = require('./src/generateMarkup');
 
 const teamRep = [];
 
 // should add validation on inquirer prompts to ensure user provided input 
 
 
-inquirer.prompt([
+const promptManager = () => {
+  return inquirer.prompt([
   {
     type: 'input',
     name: 'name',
@@ -69,8 +71,8 @@ inquirer.prompt([
   const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
   teamRep.push(manager);
   displayMenu();
-})
-
+ })
+}
 const displayMenu = () => {
   return inquirer.prompt([
     {
@@ -178,6 +180,21 @@ promptIntern = () => {
   })
 }
 
-createTeam = () => {
-
+//Final Function called that will confirm site creation and pass teamRep array to generateMarkup and then write file. 
+const createTeam = () => {
+  console.log("Your site has been generated!"); 
+  const htmlContent = generateMarkup(teamRep);
+  fs.writeFileSync("./dist/index.html", htmlContent, err => {
+    if (err){
+      console.log(err);
+      return;
+    }else {
+      console.log("Your file has been generated in the dist folder!");
+    }
+  });
 }
+
+//Begin inquirer 
+promptManager(); 
+//Export user responses for generateMarkup.js 
+module.exports = teamRep; 
